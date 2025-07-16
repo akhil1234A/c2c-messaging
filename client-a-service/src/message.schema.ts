@@ -3,17 +3,15 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class Message extends Document {
-  @Prop()
-  from: string;
-
-  @Prop()
-  to: string;
-
-  @Prop()
-  message: string;
-
-  @Prop()
-  timestamp: Date;
+  @Prop({ required: true }) from: string;
+  @Prop({ required: true }) to: string;
+  @Prop({ required: true }) message: string;
+  @Prop({ required: true }) timestamp: Date;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
+
+MessageSchema.index(
+  { from: 1, to: 1, message: 1, timestamp: 1 },
+  { unique: true },
+);
