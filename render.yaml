@@ -1,30 +1,31 @@
-blueprint:
-  services:
-    - name: client-a-service
-      source: ./client-a-service
-      type: web
-      buildCommand: npm install && npm run build
-      startCommand: npm run start:prod
-      envVars:
-        - key: KAFKA_BROKERS
-          value: <confluent-broker-url>
-        - key: KAFKA_USERNAME
-          value: <confluent-username>
-        - key: KAFKA_PASSWORD
-          value: <confluent-password>
-        - key: MONGODB_URI
-          value: <atlas-uri>
-    - name: client-b-service
-      source: ./client-b-service
-      type: worker
-      buildCommand: npm install && npm run build
-      startCommand: npm run start:prod
-      envVars:
-        - key: KAFKA_BROKERS
-          value: <confluent-broker-url>
-        - key: KAFKA_USERNAME
-          value: <confluent-username>
-        - key: KAFKA_PASSWORD
-          value: <confluent-password>
-        - key: MONGODB_URI
-          value: <atlas-uri>
+services:
+  - type: web
+    name: client-a-service
+    env: node
+    repo: https://github.com/<your-username>/<your-repo>
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
+    envVars:
+      - key: KAFKA_BROKERS
+        sync: false
+      - key: KAFKA_USERNAME
+        sync: false
+      - key: KAFKA_PASSWORD
+        sync: false
+      - key: MONGODB_URI
+        sync: false
+  - type: worker
+    name: client-b-service
+    env: node
+    repo: https://github.com/<your-username>/<your-repo>
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
+    envVars:
+      - key: KAFKA_BROKERS
+        sync: false
+      - key: KAFKA_USERNAME
+        sync: false
+      - key: KAFKA_PASSWORD
+        sync: false
+      - key: MONGODB_URI
+        sync: false
