@@ -2,7 +2,7 @@ services:
   - type: web
     name: client-a-service
     env: node
-    repo: https://github.com/<your-username>/<your-repo>
+    repo: https://github.com/akhil1234A/c2c-messaging
     buildCommand: npm install && npm run build
     startCommand: npm run start:prod
     envVars:
@@ -17,7 +17,7 @@ services:
   - type: worker
     name: client-b-service
     env: node
-    repo: https://github.com/<your-username>/<your-repo>
+    repo: https://github.com/akhil1234A/c2c-messaging
     buildCommand: npm install && npm run build
     startCommand: npm run start:prod
     envVars:
