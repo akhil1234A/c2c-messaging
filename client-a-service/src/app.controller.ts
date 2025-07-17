@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post, Get } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { AppService } from './app.service';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
@@ -36,6 +36,12 @@ export class AppController {
       this.logger.error('Invalid sender: must be clientA', { body });
       throw new Error('Invalid sender: must be clientA');
     }
+    if (body.to !== 'clientB') {
+      this.logger.error('Invalid receiver: must be clientB', {
+        body,
+      });
+      throw new Error('Invalid receiver: must be clientB');
+    }
     try {
       await this.appService.saveMessage(body);
       this.kafkaClient.emit('client-messages', body);
@@ -46,5 +52,10 @@ export class AppController {
       this.logger.error('Failed to send message', { err: error.message, body });
       throw err;
     }
+  }
+
+  @Get('health')
+  healthCheck() {
+    return { status: 'ok', service: 'client-a-service' };
   }
 }

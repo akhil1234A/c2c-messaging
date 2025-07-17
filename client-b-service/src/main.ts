@@ -22,7 +22,11 @@ if (process.env.KAFKA_USERNAME && process.env.KAFKA_PASSWORD) {
 }
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice(AppModule, {
+  const app = await NestFactory.create(AppModule);
+  const port = process.env.PORT ?? 3001; // Use a different port for Client-B
+
+  // Connect the microservice
+  app.connectMicroservice({
     transport: Transport.KAFKA,
     options: {
       client: kafkaConfig,
@@ -33,6 +37,13 @@ async function bootstrap() {
       run: { autoCommit: false },
     },
   });
-  await app.listen();
+
+  // Start the HTTP server
+  await app.listen(port);
+  console.log(`Client-B service is running on port ${port}`);
+
+  // Start the microservice
+  app.startAllMicroservices();
 }
-bootstrap();
+
+void bootstrap();

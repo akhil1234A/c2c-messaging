@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { WinstonModule } from 'nest-winston';
 import { format, transports } from 'winston';
 import { AppController } from './app.controller';
+import { HealthController } from './health.controller';
 import { AppService } from './app.service';
 import { Message, MessageSchema } from './message.schema';
 import * as dotenv from 'dotenv';
@@ -51,7 +52,7 @@ const kafkaSasl =
       ],
     }),
   ],
-  controllers: [AppController],
+  controllers: [AppController, HealthController],
   providers: [AppService],
 })
 export class AppModule {}
